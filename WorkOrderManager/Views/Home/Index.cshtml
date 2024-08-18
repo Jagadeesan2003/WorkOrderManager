@@ -1,0 +1,76 @@
+﻿@model List<WorkOrderManager.Models.WorkOrder>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px
+    }
+
+    table, td, th {
+        border: 1px solid #000000;
+    }
+
+    td, th {
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<h1> Work Orders List</h1>
+<button type="button" onclick="window.location.href='@Url.Action("Create", "Home")'">Add</button>
+<table>
+    <thead>
+        <tr>
+            <th>S.No</th>
+            <th>OrderNo</th>
+            <th>Description</th>
+            <th>Reg</th>
+            <th>Open Date</th>
+            <th>Closed Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{int row = 0;
+            foreach (var item in Model)
+            {
+                row++;
+                <tr>
+                    <td>@row</td>
+                    <td>@item.OrderNo</td>
+                    <td>@item.Description</td>
+                    <td>@item.Reg</td>
+                    <td>@(item.OpenDate.ToString("dd-MM-yyyy"))</td>
+                    <td>@(item.ClosedDate.HasValue ? item.ClosedDate.Value.ToString("dd-MM-yyyy") : "")</td>
+                    <td style="background-color: @(GetBackgroundColor(item.OrderStatus))">@item.OrderStatus</td>
+                    <td>
+                        <a href="Home/Create/@item.ID">Edit</a>  |
+                        <a href="Home/Delete/@item.ID">Delete</a>  |
+                        <a href="Task/Index/@item.ID">View Task</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@functions {
+    private string GetBackgroundColor(string status)
+    {
+        return status switch
+        {
+            "Open" => "lightgreen",
+            "Planned" => "lightblue",
+            "Closed" => "lightgray",
+            "Approved" => "lightyellow",
+            _ => "white"
+        };
+    } }

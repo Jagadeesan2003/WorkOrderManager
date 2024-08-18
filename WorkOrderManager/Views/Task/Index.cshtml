@@ -1,0 +1,75 @@
+﻿@model List<WorkOrderManager.Models.Tasks>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px
+    }
+
+    table, td, th {
+        border: 1px solid #000000;
+    }
+
+    td, th {
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<h1> Task List</h1>
+<button type="button" onclick="window.location.href='@Url.Action("Create", "Task", new { id = 0, orderID = ViewBag.OrderID })'">Add</button>
+<table>
+    <thead>
+        <tr>
+            <th>S.No</th>
+            <th>OrderNo</th>
+            <th>Task No</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Carried Out Date</th>
+            <th>Journey</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{int row = 0;
+            foreach (var item in Model)
+            {
+                row++;
+                <tr>
+                    <td>@row</td>
+                    <td>@item.OrderNo</td>
+                    <td>@item.TaskNo</td>
+                    <td>@item.Description</td>
+                    <td style="background-color: @(GetBackgroundColor(item.OrderTaskStatus))">@item.OrderTaskStatus</td>
+                    <td>@(item.CODate.HasValue ? item.CODate.Value.ToString("dd-MM-yyyy") : "")</td>
+                    <td>@item.COJourneyNo</td>
+                    <td>
+                        <a href="@Url.Action("Create", "Task", new { id = item.ID, orderID = 0 })">Edit</a>   |
+                        <a href="@Url.Action("Delete", "Task", new { id = item.ID })">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@functions {
+    private string GetBackgroundColor(string status)
+    {
+        return status switch
+        {
+            "Open" => "lightgreen",
+            "Planned" => "lightblue",
+            "Closed" => "lightgray",
+            "Approved" => "lightyellow",
+            _ => "white"
+        };
+    } }

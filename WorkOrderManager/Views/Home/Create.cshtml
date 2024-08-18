@@ -1,0 +1,83 @@
+﻿@model WorkOrderManager.Models.WorkOrder
+<style>
+    .form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"], input[type="email"], select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 2px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+</style>
+<h1> Create Work Order</h1>
+
+<div class="form-container">
+    <form asp-controller="Home" asp-action="Save" method="POST">
+        <div class="form-group">
+            <input type="hidden" asp-for="ID" />
+        </div>
+        <div class="form-group">
+            <label for="ordeNo">Order No:</label>
+            <input type="text" id="ordeNo" name="OrderNo" asp-for="OrderNo" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description :</label>
+            <input type="text" id="description" name="Description" asp-for="Description" required>
+        </div>
+        <div class="form-group">
+            <label for="reg">Reg:</label>
+            <input type="text" id="reg" name="Reg" asp-for="Reg" required>
+        </div>
+        <div class="form-group">
+            <label for="model">Model:</label>
+            <input type="text" id="model" name="Model" asp-for="Model" required>
+        </div>
+        <div class="form-group">
+            <label for="serial">Serial No:</label>
+            <input type="text" id="serial" name="SerialNo" asp-for="SerialNo" required>
+        </div>
+        <div class="form-group">
+            <label asp-for="OrderStatus">Order Status:</label>
+            <select asp-for="OrderStatus" class="form-control">
+                <option value="Open">Open</option>
+                <option value="Planned">Planned</option>
+                <option value="Closed">Closed</option>
+                <option value="Approved">Approved</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+</div>
